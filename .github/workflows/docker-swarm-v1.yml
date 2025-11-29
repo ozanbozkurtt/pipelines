@@ -15,13 +15,6 @@ on:
         description: "Path to Dockerfile"
         type: string
         required: true
-    secrets:
-      DOCKER_REGISTRY_USER:
-        required: true
-      DOCKER_REGISTRY_TOKEN:
-        required: true
-      PAT:
-        required: true
 
 jobs:
   build:
