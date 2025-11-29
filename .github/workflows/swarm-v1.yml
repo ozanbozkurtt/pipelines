@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ inputs.branch == 'prod' && 'prod-swarm-runner' || 'preprod-swarm-runner' }}
 
     env:
-      REGISTRY: ghcr.io
+      REGISTRY: ozanbozkurtt
       IMAGE_NAME: ${{ github.event.repository.name }}
       IMAGE_TAG: ${{ inputs.image_tag }}
 

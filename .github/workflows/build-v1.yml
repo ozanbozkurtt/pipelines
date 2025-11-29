@@ -25,20 +25,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      REGISTRY: 
+      REGISTRY: ozanbozkurtt
       IMAGE_NAME: ${{ inputs.build_name }}
       IMAGE_TAG: ${{ inputs.branch == 'prod' && github.ref_name || format('{0}-{1}', inputs.branch, github.run_number) }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Docker Login
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
       - name: Build & Push Image
         uses: docker/build-push-action@v6
