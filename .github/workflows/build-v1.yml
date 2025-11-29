@@ -1,0 +1,49 @@
+name: Docker Build and Push
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        type: string
+        required: true
+      build_name:
+        type: string
+        required: true
+      dockerfile_path:
+        type: string
+        required: true
+    secrets:
+      DOCKER_REGISTRY_USER:
+        required: true
+      DOCKER_REGISTRY_TOKEN:
+        required: true
+      PAT:
+        required: true
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    env:
+      REGISTRY: 
+      IMAGE_NAME: ${{ inputs.build_name }}
+      IMAGE_TAG: ${{ inputs.branch == 'prod' && github.ref_name || format('{0}-{1}', inputs.branch, github.run_number) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+
+      - name: Build & Push Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ inputs.dockerfile_path }}
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
