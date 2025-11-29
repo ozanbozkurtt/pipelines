@@ -43,6 +43,6 @@ jobs:
     uses: ./.github/workflows/swarm-v1.yml
     with:
       branch: ${{ inputs.branch }}
-      stack_name: macellan
+      stack_name: demo
       image_tag: ${{ inputs.branch == 'prod' && github.ref_name || format('{0}-{1}', inputs.branch, github.run_number) }}
     secrets: inherit

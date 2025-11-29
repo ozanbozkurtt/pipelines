@@ -12,17 +12,10 @@ on:
       image_tag:
         type: string
         required: true
-    secrets:
-      DOCKER_REGISTRY_USER:
-        required: true
-      DOCKER_REGISTRY_TOKEN:
-        required: true
-      PAT:
-        required: true
 
 jobs:
   deploy:
-    runs-on: ${{ inputs.branch == 'prod' && 'prod-swarm-runner' || 'preprod-swarm-runner' }}
+    runs-on: [demo-runner]
 
     env:
       REGISTRY: ozanbozkurtt
@@ -32,13 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Docker Login
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
       - name: Replace variables
         run: |

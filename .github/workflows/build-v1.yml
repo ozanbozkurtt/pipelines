@@ -12,17 +12,10 @@ on:
       dockerfile_path:
         type: string
         required: true
-    secrets:
-      DOCKER_REGISTRY_USER:
-        required: true
-      DOCKER_REGISTRY_TOKEN:
-        required: true
-      PAT:
-        required: true
 
 jobs:
   docker-build:
-    runs-on: ubuntu-latest
+    runs-on: [demo-runner]
 
     env:
       REGISTRY: ozanbozkurtt
